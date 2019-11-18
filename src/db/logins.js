@@ -8,8 +8,7 @@ const logins = {
     "database": "4YOU"
   }),
   "production": () => ({
-    "use_env_variable": "JAWSDB_URL",
-    "dialect": "mysql"
+    "host": process.env["JAWSDB_URL"]
   }),
   "test": () => { throw new Error("test environment not implemented") },
   "setup": () => ({
