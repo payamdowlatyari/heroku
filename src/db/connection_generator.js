@@ -17,7 +17,7 @@ async function connection(opts) {
   try {
     await connect(conn);
   } catch (error) {
-    let error = "Could not connect to database connection: " + host;
+    error = "Could not connect to database connection: " + host;
     if(strPort) {
       error += " " + strPort;
     }
