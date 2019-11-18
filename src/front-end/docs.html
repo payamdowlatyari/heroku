@@ -5,31 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Docs</title>
+  <link rel="stylesheet" type="text/css" href="docs.css">
 </head>
 <body>
 
   <header class="header">
-    Logo
+    <div class="logo">Logo</div>
+    <div class="user" id="logout">Logout</div>
   </header>
 
-  <aside class="sidebar">
-    <nav>
-      <div id="home">Home</div>
-      <div id="docs">Cloud Docs</div>
-    </nav>
-  </aside>
+  <section class="container">
+    <aside class="sidebar">
+      <nav>
+        <div id="home" class="active">Home</div>
+        <div id="docs">Docs</div>
+      </nav>
+    </aside>
 
-  <main id="main" class="main">
-  </main>
+    <main id="main" class="main">
+    </main>
+  </section>
 
-  <!-- <div><button id="new_doc" type="button">New Document</button><label>title</label><input id="title"
-      type="text"></input></div>
-  <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div> -->
+  <section id="new_doc_modal" class="modal hide_modal">
+      <div><button id="new_doc" type="button">New Document</button>
+        <label>title</label><input id="title" type="text"></input></div>
+        <button onclick="hideModal('new_doc_modal')">Cancel</button>
+  </section>
 
-
-  <div id="docs">
-    <!-- <div class="doc"><span class="doc-title">Title</span><button type="button" class="edit">Edit</button></div> -->
-  </div>
+  <section id="fork_doc_modal" class="modal hide_modal">
+      <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div>
+      <button onclick="hideModal('fork_doc_modal')">Cancel</button>
+  </section>
 
 
   <script>
@@ -42,13 +48,16 @@
 
     function newDoc(doc) {
       const div = document.createElement('div');
-      const span = document.createElement('span');
       const a = document.createElement('a');
+      const span = document.createElement('span');
+      const label = document.createElement('label');
 
-      span.innerText = doc.title;
-      a.innerText = "Edit";
+      div.classList.add('doc-item');
+      label.innerText = doc.title;
       a.href = `/doc?documentmeta_id=${doc.documentmeta_id}`
-      div.appendChild(span);
+      a.setAttribute('target', '_blank');
+      a.appendChild(span);
+      a.appendChild(label);
       div.appendChild(a);
 
       return div;
@@ -80,6 +89,9 @@
         })
         loadDocs(await grabDocs());
       })();
+
+      toggleTab('docs');
+      hideModal('new_doc_modal');
     }
 
     
@@ -97,24 +109,64 @@
         })
         loadDocs(await grabDocs());
       })();
+      toggleTab('docs');
+      hideModal('fork_doc_modal');
     }
 
+    document.getElementById('logout').addEventListener('click', async function() {
+      console.log('logout');
+    });
+
+    var activeTab = document.getElementById('home');
+    function toggleTab(elemID) {
+        activeTab.classList.remove('active');
+        activeTab = document.getElementById(elemID);
+        activeTab.classList.add('active');
+    }
 
     document.getElementById('docs').addEventListener('click', async function() {
-      loadDocs(await grabDocs());
+        toggleTab('docs');
+        loadDocs(await grabDocs());
     });
+
 
     document.getElementById('home').addEventListener('click', renderHome, false);
 
     
     function renderHome() {
-      docsContainer.innerHTML = "";
-      docsContainer.innerHTML = '<div><button id="new_doc" type="button">New Document</button><label>title</label><input id="title" type="text"></input></div>\
-      <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div>';
+        toggleTab('home');
+        docsContainer.innerHTML = "";
+        var div = document.createElement('div');
+        var span = document.createElement('span');
+        span.innerText = "Create New Doc";
+        span.setAttribute('onclick', "showNewDocModal()");
+        div.classList.add('new-doc');
+        div.appendChild(span);
+        docsContainer.appendChild(div);
+
+        div = document.createElement('div');
+        span = document.createElement('span');
+        span.innerText = "Fork Doc";
+        span.setAttribute('onclick', "showForkDocModal()");
+        div.classList.add('fork-doc');
+        div.appendChild(span);
+        docsContainer.appendChild(div);
+
 
       document.getElementById('new_doc').addEventListener('click', createNewDoc);
       document.getElementById('fork_doc').addEventListener('click', forkDoc);
     }
+
+    function showNewDocModal() {
+        document.getElementById('new_doc_modal').classList.remove('hide_modal');
+    }
+    function showForkDocModal() {
+        document.getElementById('fork_doc_modal').classList.remove('hide_modal');
+    }
+    function hideModal(elemID) {
+        document.getElementById(elemID).classList.add('hide_modal');
+    }
+    window.onload = renderHome();
   </script>
 </body>
 </html>

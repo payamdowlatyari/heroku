@@ -17,6 +17,7 @@
       type="text"></input></div>
 
   <button type="button" id="save">Save</button>
+  <button type="button" id="cancel">Cancel</button>
   <button class="display_none" type="button" id="update">Update Available</button>
   <div id="editor">
   </div>
@@ -150,6 +151,9 @@
     }
 
     document.getElementById('save').addEventListener('click', saveHandler);
+    document.getElementById('cancel').addEventListener('click', function () {
+      window.close();
+    });
   </script>
 </body>
 </html>

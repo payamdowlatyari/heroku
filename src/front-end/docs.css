@@ -1,0 +1,163 @@
+*:focus {
+    outline: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    height: 45px;
+    background: #efefef;
+    padding: 12px;
+}
+
+.logo {
+    display: inline-block;
+}
+
+.user {
+    display: inline-block;
+    position: absolute;
+    right: 24px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: top;
+    justify-content: center;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-bottom: 1px solid #efefef;
+}
+
+.sidebar nav {
+    background: #ebebeb;
+    padding: 3px;
+    border-radius: 25px;
+}
+
+.sidebar nav div {
+    display: inline-block;
+    border-radius: 15px;
+    padding: 6px 0px;
+    width: 97px;
+    text-align: center;
+    cursor: pointer;
+    color: #4285F4;
+    background: #fff;
+    border: 1px solid #fff;
+}
+
+.sidebar nav div:not(.active):hover {
+    border: 1px solid #4285F4;
+}
+
+.sidebar .active {
+    background-color: #4285F4;
+    color: #fff;
+    border-color: #4285F4;
+}
+
+.main {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.doc-item {
+    display: inline-block;
+    margin: 15px;
+    text-align: center;
+    width: 112px;
+    height: 172px;
+    cursor: pointer;
+}
+
+.doc-item span {
+    display: inline-block;
+    background-color: rgb(205, 205, 205);
+    text-align: center;
+    width: 112px;
+    height: 142px;
+}
+
+.doc-item label {
+    display: inline-block;
+    padding-top: 10px;
+    color: rgb(105, 105, 105);
+}
+
+.new-doc,
+.fork-doc {
+    width: 100vw;
+    padding: 12px;
+    text-align: center;
+}
+
+.new-doc span,
+.fork-doc span {
+    display: inline-block;
+    font-size: 18px;
+    color: #fff;
+    width: 180px;
+    padding: 6px 0px;
+    text-align: center;
+    background: #4285F4;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.new-doc span:hover,
+.fork-doc span:hover {
+    color: #000;
+}
+@media only screen and (min-width: 768px) {
+    .header {
+        height: 67px;
+        padding: 24px;
+    }
+
+    .main {
+        padding: 36px;
+    }
+}
+
+
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #efefef;
+}
+
+.hide_modal {
+    display: none;
+}
