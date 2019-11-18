@@ -8,17 +8,28 @@ const connect = conn => {
 
 async function connection(opts) {
   const strPort = `${opts.port}`;
-  if (!(connections[opts.host] && connections[opts.host][strPort])) {
-    connections[opts.host] || (connections[opts.host] = {});
-    const conn = mysql.createConnection(opts);
-    try {
-      await connect(conn);
-    } catch (error) {
-      console.error("Could not connect to database connection: " + opts.host + " " + strPort);
+  const host = `${opts.host}`;
+  if(!host) throw new Error("No hast provided in options");
+
+  let promise;
+  if(strPort) connections[host] || (connections[host] = {});
+  const conn = mysql.createConnection(opts);
+  try {
+    await connect(conn);
+  } catch (error) {
+    let error = "Could not connect to database connection: " + host;
+    if(strPort) {
+      error += " " + strPort;
     }
-    connections[opts.host][strPort] = new Promise(res => res(conn));
+    throw new Error(error);
   }
-  return connections[opts.host][strPort];
+  promise = new Promise(res => res(conn));
+  if(strPort) {
+    connections[host][strPort] = promise;
+  } else {
+    connections[host] = promise;
+  }
+  return connections[host][strPort];
 }
 
 module.exports = connection;
