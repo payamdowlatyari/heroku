@@ -14,7 +14,7 @@ async function connection(opts) {
 
   let promise;
   let conn = mysql.createConnection(opts);
-  if(strPort) onnections[host] || (connections[host] = {});
+  if(strPort) connections[host] || (connections[host] = {});
   conn = mysql.createConnection(opts);
   try {
     await connect(conn);
