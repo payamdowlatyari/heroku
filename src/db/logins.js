@@ -27,7 +27,7 @@ const logins = {
     "database": "4YOU"
   }),
   "production": () => ({
-    "host": parse(process.env["JAWSDB_URL"])
+    ...parse(process.env["JAWSDB_URL"])
   }),
   "test": () => { throw new Error("test environment not implemented") },
   "setup": () => ({
