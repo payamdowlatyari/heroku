@@ -53,6 +53,6 @@ cd tmphero
 git add -A; git commit -m "new version"; git push;
 
 cd ~/Desktop
-rm -rd $TMPDIR
+sudo rm -rd $TMPDIR
 
 cd $CURDIR
