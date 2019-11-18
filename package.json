@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "NODE_ENV=setup node ./scripts/setupMysql.js",
-    "start": "npm run setup; node ./src/server/server.js"
+    "heroku_setup": "node ./scripts/setupMysql.js",
+    "start": "npm run heroku_setup; node ./src/server/server.js"
   },
   "repository": {
     "type": "git",

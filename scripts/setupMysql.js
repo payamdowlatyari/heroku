@@ -4,7 +4,7 @@ const path = require('path');
 const {
   query,
   connectionWrapper
-} = require('../src/db');
+} = require(path.join(__dirname, '../src/db'));
 
 const sql = fs.readFileSync(path.join(__dirname, '../src/db/nodejs_sql_api/setup.sql'), 'utf-8')
               .split("\n")
