@@ -1,3 +1,22 @@
+function parse(url) {
+  url = url.replace('mysql://', '');
+  let [user, passhost, portschema] = url.split(':');
+  let [password, host] = passhost.split('@');
+  let [port, database] = portschema.split('/');
+
+  const out = {
+      user,
+      password,
+      host,
+      port,
+      database
+  };
+
+  return out;
+}
+
+console.log(parse(process.env["JAWSDB_URL"]))
+
 const logins = {
   "dev": () => ({
     "host": "localhost",
@@ -8,7 +27,7 @@ const logins = {
     "database": "4YOU"
   }),
   "production": () => ({
-    "host": process.env["JAWSDB_URL"]
+    "host": parse(process.env["JAWSDB_URL"])
   }),
   "test": () => { throw new Error("test environment not implemented") },
   "setup": () => ({
