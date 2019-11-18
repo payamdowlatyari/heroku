@@ -14,12 +14,8 @@ async function connection(opts) {
 
   let promise;
   let conn = mysql.createConnection(opts);
-  if(strPort) { 
-    connections[host] || (connections[host] = {});
-    conn = mysql.createConnection(opts);
-  } else {
-    conn = mysql.createConnection(host);
-  }
+  if(strPort) onnections[host] || (connections[host] = {});
+  conn = mysql.createConnection(opts);
   try {
     await connect(conn);
   } catch (error) {
