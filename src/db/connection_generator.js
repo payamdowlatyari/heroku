@@ -13,8 +13,13 @@ async function connection(opts) {
   if(!host) throw new Error("No hast provided in options");
 
   let promise;
-  if(strPort) connections[host] || (connections[host] = {});
-  const conn = mysql.createConnection(opts);
+  let conn = mysql.createConnection(opts);
+  if(strPort) { 
+    connections[host] || (connections[host] = {});
+    conn = mysql.createConnection(opts);
+  } else {
+    conn = mysql.createConnection(host);
+  }
   try {
     await connect(conn);
   } catch (error) {
