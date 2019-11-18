@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Docs</title>
+</head>
+<body>
+
+  <header class="header">
+    Logo
+  </header>
+
+  <aside class="sidebar">
+    <nav>
+      <div id="home">Home</div>
+      <div id="docs">Cloud Docs</div>
+    </nav>
+  </aside>
+
+  <main id="main" class="main">
+  </main>
+
+  <!-- <div><button id="new_doc" type="button">New Document</button><label>title</label><input id="title"
+      type="text"></input></div>
+  <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div> -->
+
+
+  <div id="docs">
+    <!-- <div class="doc"><span class="doc-title">Title</span><button type="button" class="edit">Edit</button></div> -->
+  </div>
+
+
+  <script>
+    async function grabDocs() {
+      const response = await fetch('/api/documentmeta', {
+        credentials: 'same-origin'
+      });
+      return await response.json();
+    }
+
+    function newDoc(doc) {
+      const div = document.createElement('div');
+      const span = document.createElement('span');
+      const a = document.createElement('a');
+
+      span.innerText = doc.title;
+      a.innerText = "Edit";
+      a.href = `/doc?documentmeta_id=${doc.documentmeta_id}`
+      div.appendChild(span);
+      div.appendChild(a);
+
+      return div;
+    }
+
+    const docsContainer = document.getElementById('main');
+    function loadDoc(doc) {
+      docsContainer.appendChild(newDoc(doc));
+    }
+
+    function loadDocs(docs) {
+      while (docsContainer.firstChild) {
+        docsContainer.firstChild.remove();
+      }
+      docs.map(e => loadDoc(e));
+    }
+
+    function createNewDoc() {
+      const title = document.getElementById('title').value;
+      const body = {title};
+      (async function() {
+        await fetch('/api/documentmeta', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+        loadDocs(await grabDocs());
+      })();
+    }
+
+    
+    function forkDoc() {
+      const documentmeta_id = document.getElementById('fork').value;
+      const body = {documentmeta_id};
+      (async function() {
+        await fetch('/api/fork', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+        loadDocs(await grabDocs());
+      })();
+    }
+
+
+    document.getElementById('docs').addEventListener('click', async function() {
+      loadDocs(await grabDocs());
+    });
+
+    document.getElementById('home').addEventListener('click', renderHome, false);
+
+    
+    function renderHome() {
+      docsContainer.innerHTML = "";
+      docsContainer.innerHTML = '<div><button id="new_doc" type="button">New Document</button><label>title</label><input id="title" type="text"></input></div>\
+      <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div>';
+
+      document.getElementById('new_doc').addEventListener('click', createNewDoc);
+      document.getElementById('fork_doc').addEventListener('click', forkDoc);
+    }
+  </script>
+</body>
+</html>

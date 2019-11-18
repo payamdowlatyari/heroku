@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Doc</title>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <style>
+    .display_none {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div><label>title</label><input id="title"
+      type="text"></input></div>
+
+  <button type="button" id="save">Save</button>
+  <button class="display_none" type="button" id="update">Update Available</button>
+  <div id="editor">
+  </div>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <!-- Initialize Quill editor -->
+  <script>
+    const title = document.getElementById('title');
+    function titleHandler() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('documentmeta_id')) {
+        const documentmeta_id = urlParams.get('documentmeta_id');
+        (async function () {
+          const url = (tit) => `/api/documentmeta?documentmeta_id=${documentmeta_id}&title=${tit}`;
+          await fetch(url("CLEAR"), {
+            method: 'PATCH',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          await fetch(url(title.value), {
+            method: 'PATCH',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        })();
+      }
+    }
+
+    let document_id;
+    const quill = new Quill('#editor', {
+      theme: 'snow'
+    });
+    (async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('documentmeta_id')) {
+        const param = urlParams.get('documentmeta_id');
+        let url = `/api/documentmeta?documentmeta_id=${param}`;
+        const docmetaFetch = await fetch(url, {
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const docmeta = (await docmetaFetch.json())[0];
+        title.value = docmeta.title;
+        title.addEventListener('input', titleHandler);
+        document_id = docmeta.document_id;
+        url = `/api/document?document_id=${document_id}`;
+        const doc = await fetch(url, {
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const { delta_content } = (await doc.json())[0];
+        quill.setContents(delta_content);
+
+        if(docmeta.fork_id !== null) {
+          url = `/api/fork?fork_id=${docmeta.fork_id}`;
+          const docmetaForkFetch = await fetch(url, {
+            credentials: 'same-origin',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+          });
+          const docmetaFork = (await docmetaForkFetch.json())[0];
+          url = `/api/documentmeta?documentmeta_id=${docmetaFork.original_doc_meta_id}`;
+          const originalDocMetaFetch = await fetch(url, {
+            credentials: 'same-origin',
+            headers: {
+            'Content-Type': 'application/json'
+            }
+          });
+          const originalDocMeta = (await originalDocMetaFetch.json())[0];
+          const curDocChange = new Date(docmeta.last_change);
+          const originDocChange = new Date(originalDocMeta.last_change);
+
+          if(curDocChange < originDocChange) {
+            const update = document.getElementById('update');
+            update.classList.remove('display_none');
+            update.dataset.docid = originalDocMeta.document_id;
+          }
+        }
+      } else {
+        window.location.href = '/';
+      }
+    })();
+
+    document.getElementById('update').addEventListener('click', function(e) {
+      const target = e.currentTarget;
+      (async function() {
+        let url = `/api/document?document_id=${target.dataset.docid}`;
+        const doc = await fetch(url, {
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const { delta_content } = (await doc.json())[0];
+        quill.setContents(delta_content);
+        saveHandler();
+      })();
+    })
+
+    function saveHandler() {
+      const url = `/api/document?document_id=${document_id}`;
+      const delta_content = quill.getContents();
+      for(const entry of delta_content.ops) {
+        entry.insert = entry.insert.replace(/\n/g, '\\n');
+      }
+      const data = {
+        delta_content,
+        delta_change: {},
+        document_id
+      };
+      titleHandler();
+      (async function() {
+        await fetch(url, {
+          method: 'PUT',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+      })();
+    }
+
+    document.getElementById('save').addEventListener('click', saveHandler);
+  </script>
+</body>
+</html>

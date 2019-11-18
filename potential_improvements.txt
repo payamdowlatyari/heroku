@@ -1,0 +1,11 @@
+User Related
+- Create display Name validator
+- Create password validator
+- add email confirmation
+
+Server Related
+- rate limiting / http 429 too many requests
+- add validation to server routes
+- add improved cookie/session security tracking more than just the session id
+- ensure that requests sent to critical api points are from host domain
+- check that person requesting document has access to document, not just logged in

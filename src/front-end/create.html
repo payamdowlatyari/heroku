@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>4YOU</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+    <div class="marquee-center">
+        <div class="marquee">
+            <form method="post" action="/api/user">
+                UserName:<br>
+                <input type="text" name="display_name">
+                <br>
+                Email:<br>
+                <input type="text" name="email">
+                <br>
+                Password:<br>
+                <input type="password" name="pswd">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+            <a href="/create">Create Account</a>
+        </div>
+    </div>
+</body>
+
+</html>

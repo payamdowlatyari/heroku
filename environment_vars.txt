@@ -1,0 +1,6 @@
+NODE_ENV            // dev or prod
+MYSQL_PW            // password to your mysql server
+EasyCryptPW         // encryption key 32 characters long
+COOKIE_SECRET       // key used to sign cookies 25 characters long
+EXPRESS_SESSION_KEY // session secret 64 characters long
+FORYOU_SESSION_ID   // cookie key 64 characters long
