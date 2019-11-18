@@ -17,4 +17,6 @@ async function setup() {
   return out;
 }
 
-setup().then(e => console.log(e)).catch(e => console.log(e));
+setup().then(e => {
+  console.log(e); process.exit();
+}).catch(e => console.log(e));
