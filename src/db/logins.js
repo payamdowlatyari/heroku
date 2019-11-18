@@ -1,6 +1,5 @@
 function parse(url) {
   url = url.replace('mysql://', '');
-  console.log(url);
   let [user, passhost, portschema] = url.split(':');
   let [password, host] = passhost.split('@');
   let [port, database] = portschema.split('/');

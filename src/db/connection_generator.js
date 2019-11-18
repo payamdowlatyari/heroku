@@ -7,7 +7,6 @@ const connect = conn => {
 }
 
 async function connection(opts) {
-  console.log(opts);
   const strPort = `${opts.port}`;
   const host = `${opts.host}`;
   if(!host) throw new Error("No hast provided in options");
