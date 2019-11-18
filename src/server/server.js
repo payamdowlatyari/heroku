@@ -6,9 +6,6 @@ const port = process.env.PORT || 8080;
 
 const fs = require('fs');
 
-console.log("HELLO");
-console.log(fs.readdirSync(path.join(__dirname, '../db')));
-
 const { querier, connectionWrapper } = require(path.join(__dirname, '../db/index.js'));
 const { store_config, session_config } = require(path.join(__dirname, './server_config.js'));
 const { ezCompare } = require('easycrypt');
