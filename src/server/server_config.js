@@ -38,9 +38,9 @@ const storeConfigs = {
 
 function selectConfigMode(mode) {
   switch(mode) {
-    case "dev":         return logins.dev();
-    case "production":  return logins.production();
-    case "test":        return logins.test();
+    case "dev":         return storeConfigs.dev();
+    case "production":  return storeConfigs.production();
+    case "test":        return storeConfigs.test();
     default: throw Error("Invalid mode passed to logins.js");
   }
 }
