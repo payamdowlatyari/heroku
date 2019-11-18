@@ -15,8 +15,6 @@ function parse(url) {
   return out;
 }
 
-console.log(parse(process.env["JAWSDB_URL"]))
-
 const logins = {
   "dev": () => ({
     "host": "localhost",
@@ -27,7 +25,8 @@ const logins = {
     "database": "4YOU"
   }),
   "production": () => ({
-    ...parse(process.env["JAWSDB_URL"])
+    ...parse(process.env["JAWSDB_URL"]),
+    "multipleStatements": true,
   }),
   "test": () => { throw new Error("test environment not implemented") },
   "setup": () => ({
@@ -36,7 +35,7 @@ const logins = {
     "password": process.env.MYSQL_PW,
     "multipleStatements": true,
     "port": 3306
-  })
+  }),
 }
 
 module.exports = function(mode) {
