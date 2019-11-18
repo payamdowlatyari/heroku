@@ -9,8 +9,6 @@ const connect = conn => {
 async function connection(opts) {
   const strPort = `${opts.port}`;
   if (!(connections[opts.host] && connections[opts.host][strPort])) {
-    console.log(opts);
-    console.log(process.env[opts.use_env_variable])
     connections[opts.host] || (connections[opts.host] = {});
     const conn = mysql.createConnection(opts);
     try {
