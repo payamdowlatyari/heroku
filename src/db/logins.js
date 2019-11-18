@@ -24,7 +24,7 @@ const logins = {
 module.exports = function(mode) {
   switch(mode) {
     case "dev":         return logins.dev();
-    case "production":  return logins.prod();
+    case "production":  return logins.production();
     case "test":        return logins.test();
     case "setup":       return logins.setup();
     default: throw Error("Invalid mode passed to logins.js");
