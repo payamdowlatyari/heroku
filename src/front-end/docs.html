@@ -6,13 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Docs</title>
   <link rel="stylesheet" type="text/css" href="docs.css">
+  <link rel="stylesheet" type="text/css" href="login.css">
 </head>
 <body>
-
-  <header class="header">
-    <div class="logo">Logo</div>
-    <div class="user" id="logout">Logout</div>
-  </header>
 
   <section class="container">
     <aside class="sidebar">
@@ -27,14 +23,33 @@
   </section>
 
   <section id="new_doc_modal" class="modal hide_modal">
-      <div><button id="new_doc" type="button">New Document</button>
-        <label>title</label><input id="title" type="text"></input></div>
-        <button onclick="hideModal('new_doc_modal')">Cancel</button>
+    <div class="marquee-center">
+        <div class="marquee">
+            <div class="login_container">
+            <h2 class="login_title">Create a new Doc</h2>
+            <form class="login">
+                <input class="u_name" id="title" type="text" value="" placeholder="Doc Title"></input><br>
+                <button class="btn" id="new_doc" type="button">New Document</button><br>
+                <button class="btn" onclick="hideModal('new_doc_modal')">Cancel</button>                
+            </form>
+            </div>
+        </div>
+    </div>
   </section>
 
   <section id="fork_doc_modal" class="modal hide_modal">
-      <div><button id="fork_doc" type="button">Fork Document</button><label>documentmeta_id</label><input id="fork" type="text"></input></div>
-      <button onclick="hideModal('fork_doc_modal')">Cancel</button>
+    <div class="marquee-center">
+        <div class="marquee">
+            <div class="login_container">
+            <h2 class="login_title">Fork a Doc</h2>
+            <form class="login">
+                <input class="u_name" id="fork" type="text" value="" placeholder="fork id"></input><br>
+                <button class="btn" id="fork_doc" type="button">Fork Document</button><br>
+                <button class="btn" onclick="hideModal('fork_doc_modal')">Cancel</button>                
+            </form>
+            </div>
+        </div>
+    </div>
   </section>
 
 
@@ -113,9 +128,6 @@
       hideModal('fork_doc_modal');
     }
 
-    document.getElementById('logout').addEventListener('click', async function() {
-      console.log('logout');
-    });
 
     var activeTab = document.getElementById('home');
     function toggleTab(elemID) {

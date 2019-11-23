@@ -4,7 +4,7 @@ const { querier, connectionWrapper } = require(path.join(__dirname, '../../../db
 const { ranstr } = require(path.join(__dirname, '../../../utils'));
 const { checkLoggedIn } = require(path.join(__dirname, '../../server'));
 
-router.get('/', checkLoggedIn, function(req, res) {
+router.get('/', function(req, res) {
   const { documentmeta_id } = req.query;
 
   (async function() {

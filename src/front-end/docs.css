@@ -136,6 +136,22 @@ html {
 .fork-doc span:hover {
     color: #000;
 }
+
+.btn {
+    background: #fff;
+    border: 1px solid #4285F4;
+    border-radius: 25px;
+    width: 97px;
+    height: 35px;
+    color: #4285F4;
+    cursor: pointer;
+}
+
+.btn:hover {
+    color: #fff;
+    background: #4285F4;
+}
+
 @media only screen and (min-width: 768px) {
     .header {
         height: 67px;

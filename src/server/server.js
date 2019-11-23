@@ -54,7 +54,7 @@ app.get('/', function (req, res, next) {
   if(req.session.loggedIn) {
     res.sendFile(path.join(__dirname, '../front-end', 'docs.html'));
   } else {
-    res.sendFile(path.join(__dirname, '../front-end', 'index.html'));
+    res.sendFile(path.join(__dirname, '../front-end', 'login.html'));
   }
 })
 
@@ -67,6 +67,15 @@ app.get('/doc', function(req, res, next) {
     return;
   }
   res.sendFile(path.join(__dirname, '../front-end', 'doc.html'));
+});
+
+app.get('/embeder', function(req, res, next) {
+  const { documentmeta_id } = req.query;
+  if (!documentmeta_id) {
+    res.redirect(302, '/docs');
+    return;
+  }
+  res.sendFile(path.join(__dirname, '../front-end', 'embeder.html'));
 });
 
 app.get('/login', function (req, res, next) {
