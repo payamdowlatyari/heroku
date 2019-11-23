@@ -1,0 +1,19 @@
+*:focus {
+    outline: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
